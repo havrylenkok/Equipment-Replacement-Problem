@@ -5,15 +5,21 @@
 #include <tuple>
 #include <vector>
 #include <functional>
-#include <boost>
 
-class Controller
+
+class Controller : public Model
 {
 public:
 	Controller();
 	~Controller();
 
-	std::vector<int, int, boost::any> oneOfSteps (int currentAge, std::function<std::tuple<int, bool>> )
+	struct returnElementsFromOneOfSteps {
+		int year;
+		int functionValue;
+		bool trueForSaveFalseForChange;
+	};
+
+	std::vector<returnElementsFromOneOfSteps> oneOfSteps(int currentAge, std::function<std::tuple<int, bool>>);
 	
 };
 
