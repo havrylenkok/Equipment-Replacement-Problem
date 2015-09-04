@@ -1,4 +1,6 @@
 #include "Controller.h"
+#include "Model.h"
+#include "View.h"
 
 
 
@@ -12,10 +14,5 @@ Controller::~Controller()
 }
 
 
-int main() {
-	std::cout << "Hello from controller";
-	getchar();
 
-	return 0;
 
-}

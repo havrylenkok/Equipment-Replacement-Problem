@@ -1,10 +1,11 @@
 #pragma once
 #include "Controller.h"
-class View :
-	public Controller
+class View : public Controller
 {
 public:
 	View();
 	~View();
+
+	void showResults();
 };
 
