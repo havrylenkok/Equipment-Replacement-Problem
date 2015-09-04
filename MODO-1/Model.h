@@ -6,23 +6,23 @@ public:
 	Model(); //constructor by default
 	~Model(); //destructor
 
-	int timeInExpluatation = 0; // t
-	
+	int currentAge = 0; // t
 	int costOfBuyOfNewEquipment; // p
 	int lengthOfPlannedPeriod; // T
-	int processOfExpluatation = lengthOfPlannedPeriod; // k = T
+	int processOfExpluatation = 1; // k
 
-	bool functionOfOptimalValues(int k, int currentYearOfExpluatation); // func k (t) TRUE - SAVE, FALSE - CHANGE
-	//void lastStep () { r(0) - u(0) + f T-1 (1) -> save }
+	std::tuple<int, bool> functionOfOptimalValues(int k, int currentYearOfExpluatation); // func k (t) TRUE - SAVE, FALSE - CHANGE
+	std::tuple<int, bool> lastStep(int k, int currentYearOfExpluatation);
+	
 	
 
 	std::map<int, int> productionCostAfterExpluatation; // r(t)
-	void setProductionCostAfterExpluatation(int timeInExpluatation, int newValue) {
-		productionCostAfterExpluatation[timeInExpluatation] = newValue;
+	void setProductionCostAfterExpluatation(int currentAge, int newValue) {
+		productionCostAfterExpluatation[currentAge] = newValue;
 	}
 	std::map<int, int> costOfServiceInExpluatation; // u(t)
-	void setCostOfServiceInExpluatation(int timeInExpluatation, int newValue) {
-		costOfServiceInExpluatation[timeInExpluatation] = newValue;
+	void setCostOfServiceInExpluatation(int currentAge, int newValue) {
+		costOfServiceInExpluatation[currentAge] = newValue;
 	}
 
 	
