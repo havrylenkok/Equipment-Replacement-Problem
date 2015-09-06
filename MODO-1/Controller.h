@@ -19,7 +19,7 @@ public:
 		bool trueForSaveFalseForChange;
 	};
 
-	std::vector<returnElementsFromOneOfSteps> oneOfSteps(int currentAge, std::function<std::tuple<int, bool>>);
+	std::vector<returnElementsFromOneOfSteps> oneOfSteps(int t, std::function<std::tuple<int, bool>>);
 	
 };
 
