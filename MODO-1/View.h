@@ -3,9 +3,14 @@
 class View : public Controller
 {
 public:
+
+	
+
 	View();
 	~View();
 
-	void showResults();
+	int saveConditions();
+	int saveCalculationFK();
+	int saveFinalResults();
 };
 
