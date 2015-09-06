@@ -22,6 +22,8 @@ Controller::Controller()
 	u[4] = 45;
 	u[5] = 55;
 
+	//ВЫКИНУТЬ ДАННЫЕ В ФАЙЛ через функции view
+
 }
 
 Controller::Controller(int T, std::map<int, int> r, std::map<int, int> u, int p)
@@ -30,55 +32,13 @@ Controller::Controller(int T, std::map<int, int> r, std::map<int, int> u, int p)
 	this->u = u;
 	this->p = p;
 	this->T = T;
+
+	//ВЫКИНУТЬ ДАННЫЕ В ФАЙЛ через функции view
 }
 
 Controller::~Controller()
 {
 }
-
-std::vector<Controller::returnElementsFromOneOfSteps> Controller::oneOfSteps(int tipaK)
-{
-	std::vector<Controller::returnElementsFromOneOfSteps> storage;
-	
-
-	for (int k = 1; k <= this->T - tipaK; k++)
-	{
-		if (k == Controller::T) {
-			auto temp = this->lastStep(k, tipaK);
-			Controller::returnElementsFromOneOfSteps tempStruct = { tipaK, std::get<int>(temp), std::get<bool>(temp) };
-			storage.push_back(tempStruct);
-			break;
-		}
-		else {
-			auto temp = this->calculationFunction(k, tipaK);
-			Controller::returnElementsFromOneOfSteps tempStruct = { tipaK, std::get<int>(temp), std::get<bool>(temp) };
-			storage.push_back(tempStruct);
-		}
-	}
-
-	return storage;
-}
-
-int Controller::fullCycle() //ТИП - ПЛЕЙСХОЛДЕР
-{
-	std::vector<std::vector<Controller::returnElementsFromOneOfSteps>> storageOfAllData; 
-	
-
-	for (auto counter = 0; counter < this->T; counter++)
-	{
-		storageOfAllData.push_back(Controller::oneOfSteps(counter));
-	}
-
-	//СФОРМИРОВАТЬ ПОСЛЕДНЮЮ ТАБЛИЧКУ
-
-	//ВЫКИНУТЬ ДАННЫЕ В ФАЙЛ через функции view (которые есть, которых нет - не забыть сделать их вывод отдельно)
-
-
-	return 0;
-}
-
-
-
 
 // короткая справка для ленивых: std::get - метод кортежа, чтобы получить необходимый элемент
 std::tuple<int, bool> Controller::calculationFunction(int k, int t)
@@ -102,6 +62,8 @@ std::tuple<int, bool> Controller::calculationFunction(int k, int t)
 		return std::make_tuple(temp1, true);
 	}
 	else return std::make_tuple(temp2, false);
+
+	//ВЫКИНУТЬ ДАННЫЕ В ФАЙЛ через функции view
 }
 
 std::tuple<int, bool> Controller::lastStep(int k, int t)
@@ -114,8 +76,54 @@ std::tuple<int, bool> Controller::lastStep(int k, int t)
 
 	auto temp = lambda();
 
+	//ВЫКИНУТЬ ДАННЫЕ В ФАЙЛ через функции view
+
 	return std::make_tuple(temp, true);
 }
+
+std::vector<Controller::returnElementsFromOneOfSteps> Controller::oneOfSteps(int tipaK)
+{
+	std::vector<Controller::returnElementsFromOneOfSteps> storage;
+	
+
+	for (int k = 1; k <= this->T - tipaK; k++)
+	{
+		if (k == Controller::T) {
+			auto temp = this->lastStep(k, tipaK);
+			Controller::returnElementsFromOneOfSteps tempStruct = { tipaK, std::get<int>(temp), std::get<bool>(temp) };
+			storage.push_back(tempStruct);
+			break;
+		}
+		else {
+			auto temp = this->calculationFunction(k, tipaK);
+			Controller::returnElementsFromOneOfSteps tempStruct = { tipaK, std::get<int>(temp), std::get<bool>(temp) };
+			storage.push_back(tempStruct);
+		}
+	}
+
+	//ВЫКИНУТЬ ДАННЫЕ В ФАЙЛ через функции view
+
+	return storage;
+}
+
+int Controller::fullCycle() //ТИП - ПЛЕЙСХОЛДЕР
+{
+	std::vector<std::vector<Controller::returnElementsFromOneOfSteps>> storageOfAllData; 
+	
+
+	for (auto counter = 0; counter < this->T; counter++)
+	{
+		storageOfAllData.push_back(Controller::oneOfSteps(counter));
+	}
+
+	//СФОРМИРОВАТЬ ПОСЛЕДНЮЮ ТАБЛИЧКУ
+
+	//ВЫКИНУТЬ ДАННЫЕ В ФАЙЛ через функции view
+
+
+	return 0;
+}
+
 
 
 
