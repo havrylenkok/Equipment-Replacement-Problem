@@ -37,14 +37,17 @@ public:
 	std::tuple<int, bool> calculationFunction(int k, int t); // func k (t) TRUE - SAVE, FALSE - CHANGE
 	std::tuple<int, bool> lastStep(int k, int t);
 	std::vector<returnElementsFromOneOfSteps> oneOfSteps(int t); //один шаг k
-	virtual std::vector<bool> unwrapperFromVectorToBool(int counter);
-	std::tuple<int, bool> unwrapperFromVectorForLast(int counter);
-	
 	int Controller::fullCycle();
 
 	int saveConditions();
 	int saveCalculationFunction(int k, int t, int temp1, int temp2);
 	int saveOneOfSteps(std::vector<Controller::returnElementsFromOneOfSteps> storage, int tipaK);
 	int saveFullCycle(vector<bool> finalStrategy, int maxZ);
+
+protected : 
+	std::tuple<int, bool> unwrapperFromVectorForLast(int counter);
+	virtual std::vector<bool> unwrapperFromVectorToBool(int counter);
+
+	
 };
 

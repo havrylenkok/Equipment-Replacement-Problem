@@ -10,8 +10,25 @@
 
 int main() {
 
-	Controller main = Controller();
-	main.saveConditions();
+	std::map<int, int> r;
+	r[0] = 80; //r(t)
+	r[1] = 75;
+	r[2] = 65;
+	r[3] = 60;
+	r[4] = 60;
+	r[5] = 55;
+
+	std::map<int, int> u;
+	u[0] = 20; // u(t)
+	u[1] = 25;
+	u[2] = 30;
+	u[3] = 35;
+	u[4] = 45;
+	u[5] = 55;
+
+
+	Controller main = Controller(5, r, u, 40000);
+	main.fullCycle();
 	
 
 	getchar(); // DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG

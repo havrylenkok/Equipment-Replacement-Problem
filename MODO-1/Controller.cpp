@@ -3,29 +3,6 @@ using namespace std;
 
 
 
-Controller::Controller()
-{
-	//вызывается в конструкторе View
-
-	this->p = 40000; // p
-	this->T = 5; //max t
-
-	r[0] = 80; //r(t)
-	r[1] = 75;
-	r[2] = 65;
-	r[3] = 60;
-	r[4] = 60;
-	r[5] = 55;
-
-	u[0] = 20; // u(t)
-	u[1] = 25;
-	u[2] = 30;
-	u[3] = 35;
-	u[4] = 45;
-	u[5] = 55;
-
-}
-
 Controller::Controller(int T, std::map<int, int> r, std::map<int, int> u, int p)
 {
 
@@ -50,6 +27,8 @@ Controller::Controller(int T, std::map<int, int> r, std::map<int, int> u, int p)
 
 Controller::~Controller()
 {
+	
+
 }
 
 // короткая справка для ленивых: std::get - метод кортежа, чтобы получить необходимый элемент
@@ -137,7 +116,7 @@ std::tuple<int, bool> Controller::unwrapperFromVectorForLast(int counter)
 }
 
 
-int Controller::fullCycle() //ТИП - ПЛЕЙСХОЛДЕР
+int Controller::fullCycle()
 {
 	vector<bool> giveMeResults;
 	int maxZ = 0;
