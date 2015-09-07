@@ -23,11 +23,14 @@ Controller::~Controller()
 
 }
 
-tuple<int, int, bool> Controller::SupportFunction1(int t, int k) {
+
+
+bool Controller::SupportFunction1(int t, int k) {
 
 	if (k == T) {
-		auto result = r[0] - u[0] + get<int>(SupportFunction1(1, T - 1));
-		return std::make_tuple(result, 0, true);
+		auto result = r[0] - u[0] + SupportFunction1(1, T - 1);
+		arrayOfInts = { result, 0 };
+		return true;
 	}
 	else if (k == 1) {
 		auto result = f1FromT(t);
@@ -38,28 +41,42 @@ tuple<int, int, bool> Controller::SupportFunction1(int t, int k) {
 		return result;
 	}
 	else {
-		auto result1 = r[t] - u[t] + get<int>(f1FromT(t + 1)); //fk(t)
-		auto result2 = r[0] - u[0] - p + get<int>(f1FromT(1)); //куда тут пихать k?
+		auto result1 = r[t] - u[t] + f1FromT(t + 1); //fk(t)
+		auto result2 = r[0] - u[0] - p + f1FromT(1); //куда тут пихать k?
 
-		if (result1 > result2) return make_tuple(result1, result2, true);
-		else return make_tuple(result2, result1, false);
+		if (result1 > result2) {
+			arrayOfInts = { result1, result2 }; return true;
+		}
+		else {
+			arrayOfInts = { result2, result1 }; return false;
+		}
 	}
 }
 
-tuple<int, int, bool> Controller::f1FromT(int t) {
+bool Controller::f1FromT(int t) {
 	auto result1 = r[t] - u[t];
 	auto result2 = r[0] - u[0] - p;
 
-	if (result1 > result2) return make_tuple(result1, result2, true);
-	else return make_tuple(result2, result1, false);
+	if (result1 > result2) {
+		arrayOfInts = { result1, result2 }; return true;
+	}
+	else {
+		arrayOfInts = { result2, result1 }; return false;
+	}
 }
 
-tuple<int, int, bool> Controller::f1fromTplus1(int t) {
-	auto result1 = r[t] - u[t] + get<int>(f1FromT(t+1));
-	auto result2 = r[0] - u[0] - p + get<int>(f1FromT(1));
+bool Controller::f1fromTplus1(int t) {
+	auto result1 = r[t] - u[t] + f1FromT(t+1);
+	auto result2 = r[0] - u[0] - p + f1FromT(1);
 
-	if (result1 > result2) return make_tuple(result1, result2, true);
-	else return make_tuple(result2, result1, false);
+
+
+	if (result1 > result2) {
+		arrayOfInts = { result1, result2 }; return true;
+	}
+	else {
+		arrayOfInts = { result2, result1 }; return false;
+	}
 
 
 }
@@ -71,11 +88,9 @@ std::tuple<int, bool> Controller::calculationFunction(int k, int t)
 {
 	auto temp1 = SupportFunction1(t,k);
 	
+	saveCalculationFunction(k, t, arrayOfInts[0], arrayOfInts[1]); //!
 
-	
-	saveCalculationFunction(k, t, get<1>(temp1), get<2>(temp1)); //!
-
-	return std::make_tuple(get<1>(temp1), false);
+	return std::make_tuple(arrayOfInts[0], temp1);
 }
 
 std::tuple<int, bool> Controller::lastStep(int k, int t)
@@ -154,7 +169,7 @@ int Controller::fullCycle()
 			auto temp = unwrapperFromVectorToBool(i);
 			for (int j = 0; j < T; j++) {
 				if (j == T - i) {
-					giveMeResults.push_back(temp[j]); //f4(1),...
+					giveMeResults.push_back(temp[j]); //f4(1),... /////////ПАДАЕТ ГДЕ-ТО ЗДЕСЬ (из-за какого-то вектора)
 				}
 			}
 

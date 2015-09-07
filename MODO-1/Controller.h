@@ -6,6 +6,7 @@
 #include <vector>
 #include <functional>
 #include <fstream>
+#include <array>
 using namespace std;
 
 class Controller 
@@ -19,6 +20,8 @@ public:
 	int T; // T
 	int k = 1; // k
 
+	vector<int> arrayOfInts;
+
 	struct returnElementsFromOneOfSteps {
 		int year;
 		int functionValue;
@@ -30,7 +33,7 @@ public:
 
 
 	//лерндш
-	Controller();
+	
 	Controller::Controller(int T, std::map<int, int> r, std::map<int, int> u, int p);
 	~Controller();
 
@@ -48,11 +51,11 @@ protected :
 	std::tuple<int, bool> unwrapperFromVectorForLast(int counter);
 	std::vector<bool> unwrapperFromVectorToBool(int counter);
 
-	int SupportFunction2(int k);
-	tuple<int, int, bool> SupportFunction1(int t, int k);
-	tuple<int, int, bool> f1FromT(int t);
+	
+	bool SupportFunction1(int t, int k);
+	bool f1FromT(int t);
 
-	tuple<int, int, bool> f1fromTplus1(int t);
+	bool f1fromTplus1(int t);
 	
 };
 
