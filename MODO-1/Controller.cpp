@@ -5,6 +5,8 @@
 
 Controller::Controller()
 {
+	//вызывается в конструкторе View
+
 	this->p = 40000; // p
 	this->T = 5; //max t
 
@@ -22,18 +24,16 @@ Controller::Controller()
 	u[4] = 45;
 	u[5] = 55;
 
-	//ВЫКИНУТЬ ДАННЫЕ В ФАЙЛ через функции view
-
 }
 
 Controller::Controller(int T, std::map<int, int> r, std::map<int, int> u, int p)
 {
+	//вызывается в конструкторе View
+
 	this->r = r;
 	this->u = u;
 	this->p = p;
 	this->T = T;
-
-	//ВЫКИНУТЬ ДАННЫЕ В ФАЙЛ через функции view
 }
 
 Controller::~Controller()
