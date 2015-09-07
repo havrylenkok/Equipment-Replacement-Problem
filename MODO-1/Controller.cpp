@@ -1,5 +1,5 @@
 #include "Controller.h"
-#include "View.h"
+using namespace std;
 
 
 
@@ -28,12 +28,24 @@ Controller::Controller()
 
 Controller::Controller(int T, std::map<int, int> r, std::map<int, int> u, int p)
 {
-	//âûçûâàåòñÿ â êîíñòğóêòîğå View
+
+
+	ofstream fout("results");
+	if (!fout.is_open()) {
+		std::cerr << "Can't open first file!" << std::endl;
+	}
 
 	this->r = r;
 	this->u = u;
 	this->p = p;
 	this->T = T;
+
+	if (saveConditions()) {
+		fout << "Check your input, it's wrong!";
+	}
+
+	fout << "kept you waiting, huh" << std::endl;
+	fout.close();
 }
 
 Controller::~Controller()
@@ -106,20 +118,165 @@ std::vector<Controller::returnElementsFromOneOfSteps> Controller::oneOfSteps(int
 	return storage;
 }
 
+vector<bool> Controller::unwrapperFromVectorToBool (int counter) {
+	vector <bool> one;
+	auto temp = Controller::oneOfSteps(counter);
+	for (auto it = 0; it < temp.size(); it++)
+	{
+		one.push_back (temp[it].trueForSaveFalseForChange);
+	}
+	return one;
+}
+
+std::tuple<int, bool> Controller::unwrapperFromVectorForLast(int counter)
+{
+	
+	auto temp = Controller::oneOfSteps(counter);
+	
+	return make_tuple(temp[0].functionValue, temp[0].trueForSaveFalseForChange);
+}
+
+
 int Controller::fullCycle() //ÒÈÏ - ÏËÅÉÑÕÎËÄÅĞ
 {
-	std::vector<std::vector<Controller::returnElementsFromOneOfSteps>> storageOfAllData; 
-	
+	vector<bool> giveMeResults;
+	int maxZ = 0;
 
-	for (auto counter = 0; counter < this->T; counter++)
-	{
-		storageOfAllData.push_back(Controller::oneOfSteps(counter));
+	for (int i = 0; i < T; i++) {
+
+		if (i == T) {
+			auto temp = unwrapperFromVectorForLast(i);
+			giveMeResults.push_back(get<bool>(temp)); ////f5(0)
+			maxZ = get<int>(temp); 
+		}
+		else {
+			auto temp = unwrapperFromVectorToBool(i);
+			for (int j = 0; j < T; j++) {
+				if (j == T - i) {
+					giveMeResults.push_back(temp[j]); //f4(1),...
+				}
+			}
+
+
+		}
 	}
 
-	//ÑÔÎĞÌÈĞÎÂÀÒÜ ÏÎÑËÅÄÍŞŞ ÒÀÁËÈ×ÊÓ
 
-	//ÂÛÊÈÍÓÒÜ ÄÀÍÍÛÅ Â ÔÀÉË ÷åğåç ôóíêöèè view
 
+
+	
+
+
+	//ÂÛÊÈÍÓÒÜ ÄÀÍÍÛÅ Â ÔÀÉË ÷åğåç ôóíêöèè view*/
+
+
+
+	return 0;
+}
+
+
+int Controller::saveConditions()
+{
+	std::ofstream fout("results");
+	if (!fout.is_open()) {
+		std::cerr << "Can't open first file!" << std::endl;
+		return 1;
+	}
+
+	fout << "\t\t\tCONDITIONS START" << endl;
+
+	fout << "P = " << p << endl;
+	fout << "T = " << T << endl;
+
+	fout << "\t\tr[t]: ";
+	for (int i = 0; i < this->T; i++) {
+		fout << endl;
+		fout << "r[" << i << "] = " << r[i];
+	} fout << endl;
+
+	fout << "\t\tu[t]: ";
+	for (int i = 0; i < this->T; i++) {
+		fout << endl;
+		fout << "u[" << i << "] = " << u[i];
+	} fout << endl;
+
+	fout << "\t\t\tCONDITIONS END" << endl;
+
+	fout.close();
+	return 0;
+}
+
+int Controller::saveCalculationFunction(int k, int t, int temp1, int temp2)
+{
+	std::ofstream fout("results");
+	if (!fout.is_open()) {
+		std::cerr << "Can't open first file!" << std::endl;
+		return 1;
+	}
+
+	fout << "\t\t\tf" << k << "(" << t << ") START" << endl << endl;
+
+	fout << temp1 << " for SAVE" << endl;
+	fout << temp2 << " for CHANGE" << endl;
+
+	fout << "\t\t\tf" << k << "(" << t << ") END" << endl;
+
+	return 0;
+}
+
+int Controller::saveOneOfSteps(std::vector<Controller::returnElementsFromOneOfSteps> storage, int tipaK)
+{
+	std::ofstream fout("results");
+	if (!fout.is_open()) {
+		std::cerr << "Can't open first file!" << std::endl;
+		return 1;
+	}
+
+	fout << "\t\t\tSTART" << endl << endl;
+
+	fout << "Age\t|\tf" << tipaK << "(t)\t|\tStrategy" << endl;
+	for (int i = 0; i < Controller::T - tipaK; i++)
+	{
+		fout << i + 1 << "\t|\t" << storage[i].functionValue << "\t|\t" << storage[i].trueForSaveFalseForChange
+			<< endl;
+	}
+
+	fout << "\t\t\tEND" << endl;
+
+	return 0;
+}
+
+int Controller::saveFullCycle(vector<bool> finalStrategy, int maxZ)
+{
+	std::ofstream fout("results");
+	if (!fout.is_open()) {
+		std::cerr << "Can't open first file!" << std::endl;
+		return 1;
+	}
+
+	fout << "\t\t\tfinal START" << endl << endl;
+
+	fout << "Age:\t";
+	for (auto i = 0; i < finalStrategy.size(); i++)
+	{
+		fout << "| t = " << i;
+	} fout << endl;
+
+	fout << "Strategy:\t";
+	for (auto i = 0; i < finalStrategy.size(); i++)
+	{
+		if (finalStrategy[i] == true) {
+			fout << "| Save ";
+		}
+		else
+		{
+			fout << "| Change ";
+			break;
+		}
+	}
+
+	fout << endl << "maxZ = " << maxZ << endl;
+	fout << "\t\t\tfinal END" << endl;
 
 	return 0;
 }

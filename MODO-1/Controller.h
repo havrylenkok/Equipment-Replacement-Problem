@@ -6,9 +6,9 @@
 #include <vector>
 #include <functional>
 #include <fstream>
+using namespace std;
 
-
-class Controller
+class Controller 
 {
 
 public:
@@ -26,14 +26,7 @@ public:
 	};
 
 	std::map<int, int> r; // r(t)
-	void setr(int t, int newValue) {
-		r[t] = newValue;
-	}
-
 	std::map<int, int> u; // u(t)
-	void setu(int t, int newValue) {
-		u[t] = newValue;
-	}
 
 
 	//Ã≈“Œƒ€
@@ -43,11 +36,15 @@ public:
 
 	std::tuple<int, bool> calculationFunction(int k, int t); // func k (t) TRUE - SAVE, FALSE - CHANGE
 	std::tuple<int, bool> lastStep(int k, int t);
-	std::vector<returnElementsFromOneOfSteps> oneOfSteps(int t);
-	int Controller::fullCycle();
+	std::vector<returnElementsFromOneOfSteps> oneOfSteps(int t); //Ó‰ËÌ ¯‡„ k
+	virtual std::vector<bool> unwrapperFromVectorToBool(int counter);
+	std::tuple<int, bool> unwrapperFromVectorForLast(int counter);
 	
-	//ƒ–”«‹ﬂ
-	friend int saveCalculationFunction(int k, int t, int temp1, int temp2);
-	friend int saveOneOfSteps(std::vector<Controller::returnElementsFromOneOfSteps> storage, int tipaK);
+	int Controller::fullCycle();
+
+	int saveConditions();
+	int saveCalculationFunction(int k, int t, int temp1, int temp2);
+	int saveOneOfSteps(std::vector<Controller::returnElementsFromOneOfSteps> storage, int tipaK);
+	int saveFullCycle(vector<bool> finalStrategy, int maxZ);
 };
 
