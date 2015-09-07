@@ -7,22 +7,14 @@ Controller::Controller(int T, std::map<int, int> r, std::map<int, int> u, int p)
 {
 
 
-	ofstream fout("results");
-	if (!fout.is_open()) {
-		std::cerr << "Can't open first file!" << std::endl;
-	}
+	
 
 	this->r = r;
 	this->u = u;
 	this->p = p;
 	this->T = T;
 
-	if (saveConditions()) {
-		fout << "Check your input, it's wrong!";
-	}
-
-	fout << "kept you waiting, huh" << std::endl;
-	fout.close();
+	saveConditions();
 }
 
 Controller::~Controller()
