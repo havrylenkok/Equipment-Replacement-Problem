@@ -23,30 +23,59 @@ Controller::~Controller()
 
 }
 
+tuple<int, int, bool> Controller::SupportFunction1(int t, int k) {
+
+	if (k == T) {
+		auto result = r[0] - u[0] + get<int>(SupportFunction1(1, T - 1));
+		return std::make_tuple(result, 0, true);
+	}
+	else if (k == 1) {
+		auto result = f1FromT(t);
+		return result;
+	}
+	else if (k == 2) {
+		auto result = f1fromTplus1(t);
+		return result;
+	}
+	else {
+		auto result1 = r[t] - u[t] + get<int>(f1FromT(t + 1)); //fk(t)
+		auto result2 = r[0] - u[0] - p + get<int>(f1FromT(1)); //куда тут пихать k?
+
+		if (result1 > result2) return make_tuple(result1, result2, true);
+		else return make_tuple(result2, result1, false);
+	}
+}
+
+tuple<int, int, bool> Controller::f1FromT(int t) {
+	auto result1 = r[t] - u[t];
+	auto result2 = r[0] - u[0] - p;
+
+	if (result1 > result2) return make_tuple(result1, result2, true);
+	else return make_tuple(result2, result1, false);
+}
+
+tuple<int, int, bool> Controller::f1fromTplus1(int t) {
+	auto result1 = r[t] - u[t] + get<int>(f1FromT(t+1));
+	auto result2 = r[0] - u[0] - p + get<int>(f1FromT(1));
+
+	if (result1 > result2) return make_tuple(result1, result2, true);
+	else return make_tuple(result2, result1, false);
+
+
+}
+
+
+
 // короткая справка для ленивых: std::get - метод кортежа, чтобы получить необходимый элемент
 std::tuple<int, bool> Controller::calculationFunction(int k, int t)
 {
-	auto first = [this, t, k]() {
-		auto result = r[t] - u[t]
-			+ std::get<int>(calculationFunction(k, t + 1));
-		return result;
-	};
+	auto temp1 = SupportFunction1(t,k);
+	
 
-	auto second = [this, k]() {
-		auto result = r[0] - u[0] - p
-			+ std::get<int>(calculationFunction(k - 1, 1));
-		return result;
-	};
+	
+	saveCalculationFunction(k, t, get<1>(temp1), get<2>(temp1)); //!
 
-	auto temp1 = first();
-	auto temp2 = second();
-
-	saveCalculationFunction(k, t, temp1, temp2); //!
-
-	if (temp1 > temp2) {
-		return std::make_tuple(temp1, true);
-	}
-	else return std::make_tuple(temp2, false);
+	return std::make_tuple(get<1>(temp1), false);
 }
 
 std::tuple<int, bool> Controller::lastStep(int k, int t)
@@ -110,6 +139,7 @@ std::tuple<int, bool> Controller::unwrapperFromVectorForLast(int counter)
 
 int Controller::fullCycle()
 {
+	cout << "Task is in the process of solving. Your results will be in file \"results\"" << endl;
 	vector<bool> giveMeResults;
 	int maxZ = 0;
 
@@ -133,6 +163,7 @@ int Controller::fullCycle()
 	}
 
 	saveFullCycle(giveMeResults, maxZ);
+	cout << "Task completed." << endl;
 	return 0;
 }
 

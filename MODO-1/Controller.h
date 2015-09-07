@@ -46,8 +46,13 @@ public:
 
 protected : 
 	std::tuple<int, bool> unwrapperFromVectorForLast(int counter);
-	virtual std::vector<bool> unwrapperFromVectorToBool(int counter);
+	std::vector<bool> unwrapperFromVectorToBool(int counter);
 
+	int SupportFunction2(int k);
+	tuple<int, int, bool> SupportFunction1(int t, int k);
+	tuple<int, int, bool> f1FromT(int t);
+
+	tuple<int, int, bool> f1fromTplus1(int t);
 	
 };
 
