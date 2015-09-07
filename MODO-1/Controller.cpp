@@ -161,16 +161,7 @@ int Controller::fullCycle() //рхо - океияункдеп
 		}
 	}
 
-
-
-
-	
-
-
-	//бшйхмсрэ дюммше б тюик ВЕПЕГ ТСМЙЖХХ view*/
-
-
-
+	saveFullCycle(giveMeResults, maxZ);
 	return 0;
 }
 
