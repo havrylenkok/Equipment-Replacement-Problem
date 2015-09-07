@@ -58,12 +58,12 @@ std::tuple<int, bool> Controller::calculationFunction(int k, int t)
 	auto temp1 = first();
 	auto temp2 = second();
 
+	saveCalculationFunction(k, t, temp1, temp2); //!
+
 	if (temp1 > temp2) {
 		return std::make_tuple(temp1, true);
 	}
 	else return std::make_tuple(temp2, false);
-
-	//ВЫКИНУТЬ ДАННЫЕ В ФАЙЛ через функции view
 }
 
 std::tuple<int, bool> Controller::lastStep(int k, int t)
@@ -76,7 +76,7 @@ std::tuple<int, bool> Controller::lastStep(int k, int t)
 
 	auto temp = lambda();
 
-	//ВЫКИНУТЬ ДАННЫЕ В ФАЙЛ через функции view
+	saveCalculationFunction(k, t, temp, 0); //!
 
 	return std::make_tuple(temp, true);
 }
@@ -101,7 +101,7 @@ std::vector<Controller::returnElementsFromOneOfSteps> Controller::oneOfSteps(int
 		}
 	}
 
-	//ВЫКИНУТЬ ДАННЫЕ В ФАЙЛ через функции view
+	saveOneOfSteps(storage, tipaK); //!
 
 	return storage;
 }

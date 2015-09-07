@@ -8,9 +8,11 @@
 #include <fstream>
 
 
-class Controller 
+class Controller
 {
+
 public:
+
 	//œ≈–≈Ã≈ÕÕ€≈
 	int t = 0; // t
 	int p; // p
@@ -44,5 +46,8 @@ public:
 	std::vector<returnElementsFromOneOfSteps> oneOfSteps(int t);
 	int Controller::fullCycle();
 	
+	//ƒ–”«‹ﬂ
+	friend int saveCalculationFunction(int k, int t, int temp1, int temp2);
+	friend int saveOneOfSteps(std::vector<Controller::returnElementsFromOneOfSteps> storage, int tipaK);
 };
 

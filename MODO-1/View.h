@@ -1,13 +1,14 @@
 #pragma once
 #include "Controller.h"
-class View : public Controller
+class View : Controller
 {
 public:
 	View();
 	~View();
 
 	int saveConditions();
-	int saveCalculationFK();
-	int saveFinalResults();
+	int saveCalculationFunction(int k, int t, int temp1, int temp2);
+	int saveOneOfSteps(std::vector<Controller::returnElementsFromOneOfSteps> storage, int tipaK);
+	int saveFullCycle();
 };
 
