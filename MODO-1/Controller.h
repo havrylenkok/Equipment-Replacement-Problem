@@ -19,6 +19,7 @@ public:
 	int p; // p
 	int T; // T
 	int k = 1; // k
+	int maxZ = 0;
 
 	vector<int> arrayOfInts;
 
@@ -48,7 +49,7 @@ public:
 	int saveFullCycle(vector<bool> finalStrategy, int maxZ);
 
 protected : 
-	std::tuple<int, bool> unwrapperFromVectorForLast(int counter);
+	bool unwrapperFromVectorForLast(int counter);
 	std::vector<bool> unwrapperFromVectorToBool(int counter);
 
 	

@@ -135,7 +135,7 @@ std::vector<Controller::returnElementsFromOneOfSteps> Controller::oneOfSteps(int
 
 vector<bool> Controller::unwrapperFromVectorToBool (int counter) {
 	vector <bool> one;
-	auto temp = Controller::oneOfSteps(counter);
+	auto temp = oneOfSteps(counter);
 	for (auto it = 0; it < temp.size(); it++)
 	{
 		one.push_back (temp[it].trueForSaveFalseForChange);
@@ -143,12 +143,13 @@ vector<bool> Controller::unwrapperFromVectorToBool (int counter) {
 	return one;
 }
 
-std::tuple<int, bool> Controller::unwrapperFromVectorForLast(int counter)
+bool Controller::unwrapperFromVectorForLast(int counter)
 {
 	
-	auto temp = Controller::oneOfSteps(counter);
+	auto temp = oneOfSteps(counter);
+	maxZ = temp[0].functionValue;
 	
-	return make_tuple(temp[0].functionValue, temp[0].trueForSaveFalseForChange);
+	return temp[0].trueForSaveFalseForChange;
 }
 
 
@@ -156,19 +157,20 @@ int Controller::fullCycle()
 {
 	cout << "Task is in the process of solving. Your results will be in file \"results\"" << endl;
 	vector<bool> giveMeResults;
-	int maxZ = 0;
+	
 
 	for (int i = 0; i < T; i++) {
+		auto saveI = i;
 
 		if (i == T) {
 			auto temp = unwrapperFromVectorForLast(i);
-			giveMeResults.push_back(get<bool>(temp)); ////f5(0)
-			maxZ = get<int>(temp); 
+			giveMeResults.push_back(temp); ////f5(0)
+			 
 		}
 		else {
 			auto temp = unwrapperFromVectorToBool(i);
 			for (int j = 0; j < T; j++) {
-				if (j == T - i) {
+				if (j == T - saveI) {
 					giveMeResults.push_back(temp[j]); //f4(1),... /////////ÏÀÄÀÅÒ ÃÄÅ-ÒÎ ÇÄÅÑÜ (èç-çà êàêîãî-òî âåêòîðà)
 				}
 			}
