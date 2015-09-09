@@ -14,62 +14,62 @@ Controller::Controller(map<int, int> r, map<int, int> u, int p, int T) {
 	this->t = 0;
 
 	ofstream fout;
-	fout.open("result.txt");
-	cout << "hi" << endl;
+	fout.open("temp.txt");
+	fout << endl;
 	fout.close();
 
-
+	saveConditions();
+	
 }
 
 
 
 int Controller::resultTable(vector<int> final) { // записывает вектор булей из fullCycle в файл, формируя последнюю табличку (t=0 зб, t=1 замена)
 
-									  //ВЕКТОР ИНТ ЗНАЧЕНИЙ НУЖНО ПРЕОБРАЗОВАТЬ В КОНТЕЙНЕР БУЛЕВЫХ
+									  
 	
-	std::ofstream fout("result.txt", std::ios::app);
+	std::ofstream fout("temp.txt", std::ios::app);
 
 	fout << "maxZ = " << maxZ << endl;
-	fout << "Age:\t\t| ";
-	cout << "resulttable start" << endl;
+	fout << setw(10) << "Age:";
+	
 	for (int i = 0; i < stableT; i++) {
+		fout << "|";
+		fout << "    " << i+1 << "   ";
+
+		
+	} fout << "|";
+
+	fout << endl << setw(10) << "Strategy:";
+
+	for (int i = 0; i < stableT; i++) {
+		fout << "|";
 		if (final[i] == 0) {
-			fout << i+1 << " | ";
+			fout << " change ";
 			
 		}
 		else {
-			fout << i+1 << " | ";
+			fout << "  save  ";
 		}
-	}
-
-	fout << endl << "Strategy:\t| ";
-
-	for (int i = 0; i < stableT; i++) {
-		if (final[i] == 0) {
-			fout << "change" << " | ";
-			
-		}
-		else {
-			fout << "save" << " | ";
-		}
-	}
-	cout << "resulttable end" << endl;
+		
+	} fout << "|";
+	
 	fout.close();
 	return 0;
 }
 
 vector<int> Controller::fullCycle() { //проходит по всему T как итератор, вызывая каждый раз функцию-итератор fk(t) 
-	std::ofstream fout("result.txt", std::ios::app);
-	cout << "fullcycle1" << endl;
+	std::ofstream fout("temp.txt", std::ios::app);
+	
 	for (k; k <= stableT; k++) {
-		cout << "fullcycle2" << endl;
+		
 		auto result = fkt();
 		
 		auto values = get<vector<int>>(result);
 		tableInterResultValues[k] = values; //сохранение промежуточной таблички fk - значения
 		auto strategies = get<vector<double>>(result);
 		tableInterStrategy[k] = strategies; //сохранение промежуточной таблички fk - стратегии
-		cout << "fullcycle3" << endl;
+		
 		fout << "Age\t\t" << "f" << k << "(t)\t\t" << "Strategy" << endl;
 		
 		if (k != stableT) {
@@ -85,16 +85,16 @@ vector<int> Controller::fullCycle() { //проходит по всему T как итератор, вызыва
 		}
 		else { fout << stableT << "\t\t" << values.back() << "\t\t" << true << endl; }
 		
-		cout << "fullcycle4" << endl;
+		
 	}
 	fout.close();
 
-	cout << "fullcycle5" << endl;
+	
 	vector<int> resultStrategyTable{ 1 };
 	
 	auto counterOft = 0;
 	for (auto i = stableT; i > 0; i--) {
-		cout << "fullcycle6" << endl;
+		
 		auto result = tableInterStrategy[i];
 
 		if (i == stableT) { // t = 0
@@ -105,16 +105,16 @@ vector<int> Controller::fullCycle() { //проходит по всему T как итератор, вызыва
 		}
 		counterOft++;
 	}
-	cout << "fullcycle7" << endl;
+	
 
 	return resultStrategyTable;
 }
 
 tuple<vector<int>, vector<double> > Controller::fkt() { //проход по всем t для k-того года
-	cout << "fkt2" << endl;
+	
 	vector<int> valueOfF;
 	vector<double> strategy;
-	cout << "fkt2" << endl;
+	
 	while (t < T) {
 		if (k == 1) { // first
 			tuple<int, bool> result = functionFrom1(t);
@@ -136,18 +136,18 @@ tuple<vector<int>, vector<double> > Controller::fkt() { //проход по всем t для k
 		int result = functionFromLast(t);
 		valueOfF.push_back(result);
 		strategy.push_back(1);
-		cout << "ftk last" << endl;
+		
 		return make_tuple(valueOfF, strategy);
 	}
 
-	cout << "fkt3" << endl;
+	
 	t = 0;
 	T -= 1;
 	return make_tuple(valueOfF, strategy);
 }
 
 tuple<int, bool> Controller::functionFrom1(int t) {
-	cout << "funcFrom1 1" << endl;
+	
 	int save = r[t] - u[t];
 	int change = r[0] - u[0] - p;
 
@@ -156,7 +156,7 @@ tuple<int, bool> Controller::functionFrom1(int t) {
 }
 
 tuple<int, bool> Controller::functionFromK(int t) {
-	cout << "funcFromK 1" << endl;
+	
 	auto resultOfPreStep = tableInterResultValues[k - 1];
 
 	int save = r[t] - u[t] + resultOfPreStep[t + 1]; // + f k-1 (t)
@@ -167,13 +167,36 @@ tuple<int, bool> Controller::functionFromK(int t) {
 }
 
 int Controller::functionFromLast(int t) {
-	cout << "funcFromLast 1" << endl;
+	
 	auto resultOfPreStep = tableInterResultValues[k - 1];
 	auto result = r[0] - u[0] + resultOfPreStep[t];
 	maxZ = result;
 	return result;
 }
 
+void Controller::saveConditions()
+{
+	std::ofstream fout("temp.txt", std::ios::app);
+
+	fout << setw(20) << "Characteristics / T\t";
+	for (int i = 0; i <= T; i++) {
+		fout << setw(5) << i;
+	}
+	fout << endl;
+	fout << endl << setw(20) << "r(t)\t";
+	for (int i = 0; i <= T; i++) {
+		fout << setw(5) << r[i];
+	}
+
+	fout << endl << setw(20) << "u(t)\t";
+	for (int i = 0; i <= T; i++) {
+		fout << setw(5) << u[i];
+	}
+	fout << endl << endl;;
+}
+
 void Controller::startProcess() {
+	cout << endl << "Work in progress..." << endl;
 	resultTable(fullCycle());
+	cout << endl << "Work done. Check text file to see results." << endl;
 }

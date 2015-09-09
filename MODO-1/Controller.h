@@ -4,17 +4,16 @@
 #include <string>
 #include <tuple>
 #include <vector>
-#include <functional>
 #include <fstream>
-#include <array>
-#include <deque>
+#include <iomanip>
+#include <regex>
+
 using namespace std;
 
 class Controller 
 {
 
-public:
-
+private:
 	//ПЕРЕМЕННЫЕ
 	int t; // t - текущий год
 	int p; // p - цена покупки нового оборудования
@@ -31,8 +30,6 @@ public:
 	vector<double> nullVectorOfBool{ 0 };
 	map<int, vector<int> > tableInterResultValues; // промежуточные таблички, значения fk(t)
 	map<int, vector<double> > tableInterStrategy; // промежуточные таблички, стратегия
-
-	Controller(map<int, int> r, map<int, int> u, int p, int T);
 	
 	int resultTable(vector<int> final);
 	vector<int> fullCycle();
@@ -40,8 +37,11 @@ public:
 	tuple<int, bool> functionFrom1(int t);
 	tuple<int, bool> functionFromK(int t);
 	int functionFromLast(int t);
+	void saveConditions();
 
+public:
 	void startProcess();
+	Controller(map<int, int> r, map<int, int> u, int p, int T);
 
 };
 
