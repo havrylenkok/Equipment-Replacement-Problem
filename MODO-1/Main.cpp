@@ -26,11 +26,9 @@ int main() {
 	u[5] = 55;
 
 
-	Controller main = Controller(5, r, u, 40000);
-	main.fullCycle();
-	
-
-	getchar(); // DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG
+	auto work = Controller(r, u, 40, 5);
+	work.startProcess();
+	getchar();
 	return 0;
 
 }

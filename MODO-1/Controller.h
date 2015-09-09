@@ -7,6 +7,7 @@
 #include <functional>
 #include <fstream>
 #include <array>
+#include <deque>
 using namespace std;
 
 class Controller 
@@ -15,48 +16,32 @@ class Controller
 public:
 
 	//ПЕРЕМЕННЫЕ
-	int t = 0; // t
-	int p; // p
-	int T; // T
-	int k = 1; // k
+	int t; // t - текущий год
+	int p; // p - цена покупки нового оборудования
+	int T; // T - длительность периода
+	int stableT;
+	int k = 1; // k - итератор по периоду
 	int maxZ = 0;
+	int showingT;
 
-	vector<int> arrayOfInts;
+	map<int, int> r; // r(t) - прибыль за конкретный год
+	map<int, int> u; // u(t) - затраты на обслуживание за конкретный год
 
-	struct returnElementsFromOneOfSteps {
-		int year;
-		int functionValue;
-		bool trueForSaveFalseForChange;
-	};
+	vector<int> nullVectorOfInt{ 0 };
+	vector<double> nullVectorOfBool{ 0 };
+	map<int, vector<int> > tableInterResultValues; // промежуточные таблички, значения fk(t)
+	map<int, vector<double> > tableInterStrategy; // промежуточные таблички, стратегия
 
-	std::map<int, int> r; // r(t)
-	std::map<int, int> u; // u(t)
-
-
-	//МЕТОДЫ
+	Controller(map<int, int> r, map<int, int> u, int p, int T);
 	
-	Controller::Controller(int T, std::map<int, int> r, std::map<int, int> u, int p);
-	~Controller();
+	int resultTable(vector<int> final);
+	vector<int> fullCycle();
+	tuple<vector<int>, vector<double>> fkt();
+	tuple<int, bool> functionFrom1(int t);
+	tuple<int, bool> functionFromK(int t);
+	int functionFromLast(int t);
 
-	std::tuple<int, bool> calculationFunction(int k, int t); // func k (t) TRUE - SAVE, FALSE - CHANGE
-	std::tuple<int, bool> lastStep(int k, int t);
-	std::vector<returnElementsFromOneOfSteps> oneOfSteps(int t); //один шаг k
-	int Controller::fullCycle();
+	void startProcess();
 
-	int saveConditions();
-	int saveCalculationFunction(int k, int t, int temp1, int temp2);
-	int saveOneOfSteps(std::vector<Controller::returnElementsFromOneOfSteps> storage, int tipaK);
-	int saveFullCycle(vector<bool> finalStrategy, int maxZ);
-
-protected : 
-	bool unwrapperFromVectorForLast(int counter);
-	std::vector<bool> unwrapperFromVectorToBool(int counter);
-
-	
-	bool SupportFunction1(int t, int k);
-	bool f1FromT(int t);
-
-	bool f1fromTplus1(int t);
-	
 };
 
