@@ -32,10 +32,10 @@ int Controller::resultTable(vector<int> final) { // записывает вектор булей из f
 	std::ofstream fout("temp.txt", std::ios::app);
 
 	fout << endl << "maxZ = " << maxZ << endl << endl;
-	fout << setw(10) << "Вiк:  \t";
+	fout << setw(10) << "Вiк:\t\t";
 	
 	for (int i = 0; i < stableT; i++) {
-		fout << "|";
+		fout << "| ";
 		if (final[i] == 0) {
 			fout << i << "\t";
 			break;
@@ -43,10 +43,10 @@ int Controller::resultTable(vector<int> final) { // записывает вектор булей из f
 		else fout << i << "\t";
 	} fout << "|";
 
-	fout << endl << setw(10) << "Стратегiя: ";
+	fout << endl << setw(10) << "Стратегiя:\t";
 
 	for (int i = 0; i < stableT; i++) {
-		fout << "|";
+		fout << "| ";
 		if (final[i] == 0) {
 			fout << "зам\t";
 			break;
@@ -58,7 +58,7 @@ int Controller::resultTable(vector<int> final) { // записывает вектор булей из f
 		
 	} fout << "|";
 
-	fout << endl << endl << "u(t) - затрати, r(t) - прибуток, t - рiк, T - перiод" << endl <<
+	fout << endl << endl << "u ( t ) - затрати, r ( t ) - прибуток, t - рiк, T - перiод" << endl <<
 		"Стретегiя: 1 - зберегти, 0 - замiнити; maxZ - макс. прибуток" << endl << "p - цiна замiни обладнання" << endl;
 	
 	fout.close();
@@ -78,20 +78,20 @@ vector<int> Controller::fullCycle() { //проходит по всему T как итератор, вызыва
 		auto strategies = get<vector<double>>(result);
 		tableInterStrategy[k] = strategies; //сохранение промежуточной таблички fk - стратегии
 		
-		fout << "Вiк\t\t" << "f" << k << "(t)\t\t" << "Стратегiя" << endl;
+		fout << "Вiк\t\t" << "f" << k << " ( t )\t\t" << "Стратегiя" << endl;
 		
 		if (k != stableT) {
 			for (int i = 0; i < showingT - 1; i++) {
 
 				auto strat = strategies[i+1];
-				fout << i + 1 << "\t\t" << values[i+1] << "\t\t" << (bool)strat << endl;
+				fout << i + 1 << "\t\t" << values[i+1] << "   \t\t" << (bool)strat << endl;
 
 				/*auto strat = strategies[i];
 				fout << i << "\t\t" << values[i] << "\t\t" << (bool)strat << endl;*/
 
 			} showingT -= 1;
 		}
-		else { fout << stableT << "\t\t" << values.back() << "\t\t" << true << endl; }
+		else { fout << stableT << "\t\t" << values.back() << "   \t\t" << true << endl; }
 		fout << endl;
 		
 		
@@ -201,12 +201,12 @@ void Controller::saveConditions()
 		fout << setw(5) << i;
 	}
 	fout << endl;
-	fout << endl << setw(20) << "r(t)\t";
+	fout << endl << setw(20) << "r ( t )\t\t";
 	for (int i = 0; i <= T; i++) {
 		fout << setw(5) << r[i];
 	}
 
-	fout << endl << setw(20) << "u(t)\t";
+	fout << endl << setw(20) << "u ( t )\t\t";
 	for (int i = 0; i <= T; i++) {
 		fout << setw(5) << u[i];
 	}
