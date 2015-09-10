@@ -34,6 +34,7 @@ int Input::nice(int & argc, char * argv[], std::map<int, int>& r, std::map<int, 
 		}
 		else { cout << "you made mistake in input. Try again\n"; return 10; }
 
+
 		if (argv[4 + T] != "elements" || argv[4 + T] != "p" || argv[4 + T] != "P" || argv[4 + T] != "ELEMENTS") {
 			for (int i = 0; i <= T; i++) {
 				u[i] = stoi(argv[5 + T + i]);

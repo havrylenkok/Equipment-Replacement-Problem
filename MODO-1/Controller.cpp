@@ -35,9 +35,11 @@ int Controller::resultTable(vector<int> final) { // записывает вектор булей из f
 	
 	for (int i = 0; i < stableT; i++) {
 		fout << "|";
-		fout << "    " << i << "   ";
-
-		
+		if (final[i] == 0) {
+			fout << "    " << i << "   ";
+			break;
+		}
+		else fout << "    " << i << "   ";
 	} fout << "|";
 
 	fout << endl << setw(10) << "Strategy:";
@@ -46,6 +48,7 @@ int Controller::resultTable(vector<int> final) { // записывает вектор булей из f
 		fout << "|";
 		if (final[i] == 0) {
 			fout << " change ";
+			break;
 			
 		}
 		else {
@@ -53,6 +56,9 @@ int Controller::resultTable(vector<int> final) { // записывает вектор булей из f
 		}
 		
 	} fout << "|";
+
+	fout << endl << endl << "u(t) - expanses, r(t) - income, t - year, T - period" << endl <<
+		"Strategy: 1 for save, 0 for change; maxZ - max income" << endl << "p - cost of change" << endl;
 	
 	fout.close();
 	return 0;
@@ -170,7 +176,14 @@ tuple<int, bool> Controller::functionFromK(int t) {
 int Controller::functionFromLast(int t) {
 	
 	auto resultOfPreStep = tableInterResultValues[k - 1];
-	auto result = r[0] - u[0] + resultOfPreStep[t];
+	int result = 0;
+/*	if (T != 1) {
+		result = r[0] - u[0] + resultOfPreStep[t];
+	} else result = r[0] - u[0] + resultOfPreStep[t-1];*/
+
+
+		result = r[0] - u[0] + resultOfPreStep[t];
+	
 	maxZ = result;
 	return result;
 }
