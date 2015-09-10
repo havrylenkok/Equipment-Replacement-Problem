@@ -30,12 +30,12 @@ int Controller::resultTable(vector<int> final) { // записывает вектор булей из f
 	
 	std::ofstream fout("temp.txt", std::ios::app);
 
-	fout << "maxZ = " << maxZ << endl;
+	fout << endl << "maxZ = " << maxZ << endl << endl;
 	fout << setw(10) << "Age:";
 	
 	for (int i = 0; i < stableT; i++) {
 		fout << "|";
-		fout << "    " << i+1 << "   ";
+		fout << "    " << i << "   ";
 
 		
 	} fout << "|";
@@ -84,6 +84,7 @@ vector<int> Controller::fullCycle() { //проходит по всему T как итератор, вызыва
 			} showingT -= 1;
 		}
 		else { fout << stableT << "\t\t" << values.back() << "\t\t" << true << endl; }
+		fout << endl;
 		
 		
 	}

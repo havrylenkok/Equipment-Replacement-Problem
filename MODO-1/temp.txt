@@ -1,25 +1,17 @@
 
-Characteristics / T	    0    1    2    3    4    5
+Characteristics / T	    0    1    2
 
-               r(t)	   80   75   65   60   60   55
-               u(t)	   20   25   30   35   45   55
+               r(t)	    1    2    3
+               u(t)	    4    5    6
 
 Age		f1(t)		Strategy
-1		50		1
-2		35		1
-3		25		1
-4		20		0
+1		-3		1
+
 Age		f2(t)		Strategy
-1		85		1
-2		70		0
-3		70		0
-Age		f3(t)		Strategy
-1		120		1
-2		105		0
-Age		f4(t)		Strategy
-1		155		1
-Age		f5(t)		Strategy
-5		215		1
-maxZ = 215
-      Age:|    1   |    2   |    3   |    4   |    5   |
- Strategy:|  save  |  save  |  save  | change | change |
+2		-6		1
+
+
+maxZ = -6
+
+      Age:|    0   |    1   |
+ Strategy:|  save  |  save  |

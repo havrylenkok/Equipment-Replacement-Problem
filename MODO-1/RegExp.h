@@ -6,6 +6,6 @@ class Input {
 public:
 
 	int console(std::map<int, int> &r, std::map<int, int> &u, int &p, int &T);
-	string analysis();
+	int nice(int& argc, char* argv[], std::map<int, int>& r, std::map<int, int>& u, int & p, int & T);
 
 };

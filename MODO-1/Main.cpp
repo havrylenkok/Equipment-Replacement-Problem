@@ -10,21 +10,19 @@ int  main(int argc, char* argv[]) {
 	auto input = Input();
 	std::map<int, int> r;
 	std::map<int, int> u;
-	int p;
-	int T;
+	int p = 0;
+	int T = 0;
 	string arg1, arg2; 
 
-	if (argc < 5) {
+	
+	if (argc < 2) {
+		cout << "\nYou can open program with console: program-name $T r $elements u $elements $p\n";
 		input.console(r, u, p, T);
 		}
 	else {
-		arg1 = argv[0]; //need regex
-		arg2 = argv[1]; //need regex
-		p = stoi(argv[2]);
-		T = stoi(argv[3]);
+		input.nice(argc, argv, r, u, p, T);
 	}
 
-	
 	auto cont = Controller(r, u, p, T);
 	cont.startProcess();
 	
