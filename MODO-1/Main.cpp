@@ -12,7 +12,6 @@ int  main(int argc, char* argv[]) {
 	std::map<int, int> u;
 	int p = 0;
 	int T = 0;
-	string arg1, arg2; 
 
 	
 	if (argc < 2) {

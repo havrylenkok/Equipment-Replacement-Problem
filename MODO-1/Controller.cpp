@@ -60,7 +60,7 @@ int Controller::resultTable(vector<int> final) { // записывает вектор булей из f
 
 vector<int> Controller::fullCycle() { //проходит по всему T как итератор, вызывая каждый раз функцию-итератор fk(t) 
 	std::ofstream fout("temp.txt", std::ios::app);
-	
+
 	for (k; k <= stableT; k++) {
 		
 		auto result = fkt();
@@ -179,6 +179,7 @@ void Controller::saveConditions()
 {
 	std::ofstream fout("temp.txt", std::ios::app);
 
+	fout << "p = " << p << "\t\tT = " << T << endl << endl;
 	fout << setw(20) << "Characteristics / T\t";
 	for (int i = 0; i <= T; i++) {
 		fout << setw(5) << i;
