@@ -32,7 +32,7 @@ int Controller::resultTable(vector<int> final) { // записывает вектор булей из f
 	std::ofstream fout("temp.txt", std::ios::app);
 
 	fout << endl << "maxZ = " << maxZ << endl << endl;
-	fout << setw(10) << "Вiк:\t";
+	fout << setw(10) << "Вiк:  \t";
 	
 	for (int i = 0; i < stableT; i++) {
 		fout << "|";
@@ -43,7 +43,7 @@ int Controller::resultTable(vector<int> final) { // записывает вектор булей из f
 		else fout << i << "\t";
 	} fout << "|";
 
-	fout << endl << setw(10) << "Стратегiя:";
+	fout << endl << setw(10) << "Стратегiя: ";
 
 	for (int i = 0; i < stableT; i++) {
 		fout << "|";
