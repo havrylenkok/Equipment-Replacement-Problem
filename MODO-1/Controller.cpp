@@ -196,7 +196,7 @@ void Controller::saveConditions()
 	std::ofstream fout("temp.txt", std::ios::app);
 
 	fout << "p = " << p << "\t\tT = " << T << endl << endl;
-	fout << setw(20) << "Characteristics / T\t";
+	fout << setw(20) << "Характеристики / T\t";
 	for (int i = 0; i <= T; i++) {
 		fout << setw(5) << i;
 	}
@@ -214,7 +214,7 @@ void Controller::saveConditions()
 }
 
 void Controller::startProcess() {
-	cout << endl << "Work in progress..." << endl;
+	cout << endl << "Працюю..." << endl;
 	resultTable(fullCycle());
-	cout << endl << "Work done. Check text file to see results." << endl;
+	cout << endl << "Робота завершена. Результати можна побачити у файлi, або у формi." << endl;
 }
