@@ -6,7 +6,7 @@
 //считывание инпута при помощи regex
 
 int  main(int argc, char* argv[]) {
-
+	setlocale(LC_ALL, "Russian");
 	auto input = Input();
 	std::map<int, int> r;
 	std::map<int, int> u;
@@ -15,7 +15,7 @@ int  main(int argc, char* argv[]) {
 
 	
 	if (argc < 2) {
-		cout << "\nYou can open program with console: program-name $T r $elements u $elements $p\n";
+		cout << "\nВи можете вiдкрити програму через консоль: program-name $T r $elements u $elements $p\n";
 		input.console(r, u, p, T);
 		}
 	else {

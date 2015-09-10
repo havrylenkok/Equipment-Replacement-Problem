@@ -2,6 +2,7 @@
 #include "Controller.h"
 
 Controller::Controller(map<int, int> r, map<int, int> u, int p, int T) {
+	setlocale(LC_ALL, "Russian");
 	tableInterResultValues[0] = nullVectorOfInt;
 	tableInterStrategy[0] = nullVectorOfBool;
 
@@ -25,46 +26,47 @@ Controller::Controller(map<int, int> r, map<int, int> u, int p, int T) {
 
 
 int Controller::resultTable(vector<int> final) { // записывает вектор булей из fullCycle в файл, формируя последнюю табличку (t=0 зб, t=1 замена)
-
+	setlocale(LC_ALL, "Russian");
 									  
 	
 	std::ofstream fout("temp.txt", std::ios::app);
 
 	fout << endl << "maxZ = " << maxZ << endl << endl;
-	fout << setw(10) << "Age:";
+	fout << setw(10) << "Вiк:";
 	
 	for (int i = 0; i < stableT; i++) {
 		fout << "|";
 		if (final[i] == 0) {
-			fout << "    " << i << "   ";
+			fout << "    " << i << "    ";
 			break;
 		}
-		else fout << "    " << i << "   ";
+		else fout << "    " << i << "    ";
 	} fout << "|";
 
-	fout << endl << setw(10) << "Strategy:";
+	fout << endl << setw(10) << "Стратегiя:";
 
 	for (int i = 0; i < stableT; i++) {
 		fout << "|";
 		if (final[i] == 0) {
-			fout << " change ";
+			fout << " замiна  ";
 			break;
 			
 		}
 		else {
-			fout << "  save  ";
+			fout << " збереж. ";
 		}
 		
 	} fout << "|";
 
-	fout << endl << endl << "u(t) - expanses, r(t) - income, t - year, T - period" << endl <<
-		"Strategy: 1 for save, 0 for change; maxZ - max income" << endl << "p - cost of change" << endl;
+	fout << endl << endl << "u(t) - затрати, r(t) - прибуток, t - рiк, T - перiод" << endl <<
+		"Стретегiя: 1 - зберегти, 0 - замiнити; maxZ - макс. прибуток" << endl << "p - цiна замiни обладнання" << endl;
 	
 	fout.close();
 	return 0;
 }
 
 vector<int> Controller::fullCycle() { //проходит по всему T как итератор, вызывая каждый раз функцию-итератор fk(t) 
+	setlocale(LC_ALL, "Russian");
 	std::ofstream fout("temp.txt", std::ios::app);
 
 	for (k; k <= stableT; k++) {
@@ -76,7 +78,7 @@ vector<int> Controller::fullCycle() { //проходит по всему T как итератор, вызыва
 		auto strategies = get<vector<double>>(result);
 		tableInterStrategy[k] = strategies; //сохранение промежуточной таблички fk - стратегии
 		
-		fout << "Age\t\t" << "f" << k << "(t)\t\t" << "Strategy" << endl;
+		fout << "Вiк\t\t" << "f" << k << "(t)\t\t" << "Стратегiя" << endl;
 		
 		if (k != stableT) {
 			for (int i = 0; i < showingT - 1; i++) {
@@ -190,6 +192,7 @@ int Controller::functionFromLast(int t) {
 
 void Controller::saveConditions()
 {
+	setlocale(LC_ALL, "Russian");
 	std::ofstream fout("temp.txt", std::ios::app);
 
 	fout << "p = " << p << "\t\tT = " << T << endl << endl;
