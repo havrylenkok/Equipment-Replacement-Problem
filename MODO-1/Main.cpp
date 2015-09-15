@@ -3,8 +3,6 @@
 #include "RegExp.h"
 
 
-//считывание инпута при помощи regex
-
 int  main(int argc, char* argv[]) {
 	setlocale(LC_ALL, "Russian");
 	auto input = Input();

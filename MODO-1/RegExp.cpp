@@ -1,5 +1,6 @@
 #include "RegExp.h"
 
+//ввод руками в консоль, при вызове программы через .exe
 int Input::console(std::map<int, int>& r, std::map<int, int>& u, int & p, int & T)
 
 {
@@ -22,6 +23,7 @@ int Input::console(std::map<int, int>& r, std::map<int, int>& u, int & p, int & 
 		return 0;
 }
 
+//передача параметров при вызове программы через консоль
 int Input::nice(int & argc, char * argv[], std::map<int, int>& r, std::map<int, int>& u, int & p, int & T)
 {
 	setlocale(LC_ALL, "Russian");

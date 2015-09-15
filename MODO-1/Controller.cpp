@@ -24,7 +24,7 @@ Controller::Controller(map<int, int> r, map<int, int> u, int p, int T) {
 }
 
 
-
+//формирование последней таблицы в файле вывода
 int Controller::resultTable(vector<int> final) { // записывает вектор булей из fullCycle в файл, формируя последнюю табличку (t=0 зб, t=1 замена)
 	setlocale(LC_ALL, "Russian");
 									  
@@ -65,10 +65,13 @@ int Controller::resultTable(vector<int> final) { // записывает вектор булей из f
 	return 0;
 }
 
+
+//главный метод алгоритма, вызывает остальные методы, формирует вывод
 vector<int> Controller::fullCycle() { //проходит по всему T как итератор, вызывая каждый раз функцию-итератор fk(t) 
 	setlocale(LC_ALL, "Russian");
 	std::ofstream fout("temp.txt", std::ios::app);
 
+	//проход по всем шагам k - рассчеты в fkt()
 	for (k; k <= stableT; k++) {
 		
 		auto result = fkt();
@@ -98,9 +101,11 @@ vector<int> Controller::fullCycle() { //проходит по всему T как итератор, вызыва
 	}
 	fout.close();
 
-	
+	//заранее созданный вектор, чтобы начинать счет с 1, а не 0.
 	vector<int> resultStrategyTable{ 1 };
 	
+	//запись значений в специальный вектор, который передается в resultTable() для формирования
+	//последней таблицы
 	auto counterOft = 0;
 	for (auto i = stableT; i > 0; i--) {
 		
@@ -119,11 +124,13 @@ vector<int> Controller::fullCycle() { //проходит по всему T как итератор, вызыва
 	return resultStrategyTable;
 }
 
+//проход по всем доступным t в конкретном k (вызывается в fullcycle() )
 tuple<vector<int>, vector<double> > Controller::fkt() { //проход по всем t для k-того года
 	
 	vector<int> valueOfF;
 	vector<double> strategy;
 	
+	//проход по всем T (итерацией), запись результатов - значения + були
 	while (t < T) {
 		if (k == 1) { // first
 			tuple<int, bool> result = functionFrom1(t);
@@ -141,6 +148,7 @@ tuple<vector<int>, vector<double> > Controller::fkt() { //проход по всем t для k
 		t++;
 	}
 
+	//вызов функции для последнего k, так как по-человечески всунуть в while выше я его не смог
 	if (k == stableT) { // last
 		int result = functionFromLast(t);
 		valueOfF.push_back(result);
@@ -149,12 +157,13 @@ tuple<vector<int>, vector<double> > Controller::fkt() { //проход по всем t для k
 		return make_tuple(valueOfF, strategy);
 	}
 
-	
+	//обнуление и декремент для дальнейших итераций
 	t = 0;
 	T -= 1;
 	return make_tuple(valueOfF, strategy);
 }
 
+//вычисление результатов для первого шага
 tuple<int, bool> Controller::functionFrom1(int t) {
 	
 	int save = r[t] - u[t];
@@ -164,6 +173,7 @@ tuple<int, bool> Controller::functionFrom1(int t) {
 	else return make_tuple(change, false);
 }
 
+//вычисление результатов для k-атых шагов
 tuple<int, bool> Controller::functionFromK(int t) {
 	
 	auto resultOfPreStep = tableInterResultValues[k - 1];
@@ -175,6 +185,7 @@ tuple<int, bool> Controller::functionFromK(int t) {
 	else return make_tuple(change, false);
 }
 
+//вычисление результатов для последнего шага
 int Controller::functionFromLast(int t) {
 	
 	auto resultOfPreStep = tableInterResultValues[k - 1];
@@ -190,6 +201,7 @@ int Controller::functionFromLast(int t) {
 	return result;
 }
 
+//сохранение переданных пользователем условий в файле вывода
 void Controller::saveConditions()
 {
 	setlocale(LC_ALL, "Russian");
@@ -213,6 +225,7 @@ void Controller::saveConditions()
 	fout << endl << endl;;
 }
 
+//public метод для начала рассчетов
 void Controller::startProcess() {
 	cout << endl << "Працюю..." << endl;
 	resultTable(fullCycle());
